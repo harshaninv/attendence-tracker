@@ -24,13 +24,13 @@ class SubjectController extends Controller
             return response()->json(['message' => 'Unauthorized to view students for this subject'], 403);
         }
 
-        $students = $subject->students()->select('students.id', 'students.registration_number', 'students.first_name', 'students.last_name')->get();
+        $students = $subject->students()->select('students.id', 'students.registraion_number', 'students.first_name', 'students.last_name')->get();
 
         return response()->json($students);
     }
 
     public function getAllSubjects(){
-        $subjects = Subject::select('id', 'name', 'code')->get();
+        $subjects = Subject::select('id', 'name', 'subject_code')->get();
         return response()->json($subjects);
     }
 
