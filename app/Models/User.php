@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,4 +46,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //many to many realtionship among user(teacher) and the subjecct via teacher_subject pivot table
+    public function subjects() {
+        return $this->belongsToMany(Subject::class, 'teacher_subject', 'user_id', 'subject_id');
+    }
+
+    // attendece recordered by this user relation ship among user and attendence
+    public function recordedAttendances() {
+        return $this->hasMany(Attendance::class, 'recorded_by');
+    }
+
 }
