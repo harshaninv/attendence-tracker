@@ -16,7 +16,7 @@ class AttendanceController extends Controller
             return Inertia::render('Forbidden');
         }
 
-        $teacherSubjects = auth()->user()->subjects()->select('id', 'name', 'code')->get();
+        $teacherSubjects = auth()->user()->subjects()->select('subjects.id', 'subjects.name', 'subjects.subject_code')->get();
 
         return Inertia::render('Attendance/Mark', [ // Maps to resources/js/Pages/Attendance/Mark.jsx
             'subjects' => $teacherSubjects,
@@ -31,7 +31,7 @@ class AttendanceController extends Controller
             'subject_id' => ['required', 'exists:subjects,id'],
             'attendance_date' => ['required', 'date'],
             'attendances.*.student_id' => ['required', 'exists:students,id'],
-            'attendances.*.status' => ['required', 'in:present,absent,late,excused'],
+            'attendances.*.status' => ['required', 'in:present,absent'],
         ]);
 
         $subjectId = $request->input('subject_id');
@@ -96,7 +96,7 @@ class AttendanceController extends Controller
                     ->join('subjects', 'attendances.subject_id', '=', 'subjects.id')
                     ->select(
                         'students.id as student_id',
-                        'students.registration_number',
+                        'students.registraion_number',
                         'students.first_name',
                         'students.last_name',
                         'subjects.id as subject_id', // Include subject_id for more specific grouping/filtering
@@ -115,12 +115,12 @@ class AttendanceController extends Controller
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('students.first_name', 'like', '%' . $searchTerm . '%')
                   ->orWhere('students.last_name', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('students.registration_number', 'like', '%' . $searchTerm . '%');
+                  ->orWhere('students.registraion_number', 'like', '%' . $searchTerm . '%');
             });
         }
 
         // Grouping is crucial for aggregation
-        $query->groupBy('students.id', 'subjects.id', 'students.registration_number', 'students.first_name', 'students.last_name', 'subjects.name');
+        $query->groupBy('students.id', 'subjects.id', 'students.registraion_number', 'students.first_name', 'students.last_name', 'subjects.name');
         $query->orderBy('students.first_name')->orderBy('subjects.name'); // Order for consistent results
 
         // Paginate the results (essential for performance with many records)
