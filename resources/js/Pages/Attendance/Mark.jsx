@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, useForm } from '@inertiajs/react';
-import axios from 'axios'; // We'll use axios for fetching student list (not a full page reload)
+import axios from 'axios';
 
-export default function MarkAttendance({ subjects }) { // 'subjects' prop comes from Laravel controller
-    const { flash } = usePage().props; // Access flash messages
-    const user = usePage().props.auth.user; // Access authenticated user details
+export default function MarkAttendance({ subjects }) { 
+    const { flash } = usePage().props; 
+    const user = usePage().props.auth.user; 
 
     const [students, setStudents] = useState([]);
-    const today = new Date().toISOString().slice(0, 10); // Default to today's date
+    const today = new Date().toISOString().slice(0, 10); 
 
     // Inertia's useForm hook for managing form state and submission
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -57,8 +57,10 @@ export default function MarkAttendance({ subjects }) { // 'subjects' prop comes 
         post(route('attendances.store'), {
             onSuccess: () => {
                 // Optionally reset the form or give feedback
-                reset('attendances'); // Clear attendance selections
+                reset('attendances'); 
                 // Can also reset subject_id and date if desired
+                setData('subject_id', '');
+                setData('attendance_date', today);
             },
         });
     };
@@ -159,28 +161,6 @@ export default function MarkAttendance({ subjects }) { // 'subjects' prop comes 
                                                                     onChange={() => handleAttendanceChange(student.id, 'absent')}
                                                                 />
                                                                 <span className="ml-2">Absent</span>
-                                                            </label>
-                                                            <label className="inline-flex items-center mr-4">
-                                                                <input
-                                                                    type="radio"
-                                                                    className="form-radio text-yellow-600"
-                                                                    name={`attendance-${student.id}`}
-                                                                    value="late"
-                                                                    checked={data.attendances[student.id] === 'late'}
-                                                                    onChange={() => handleAttendanceChange(student.id, 'late')}
-                                                                />
-                                                                <span className="ml-2">Late</span>
-                                                            </label>
-                                                            <label className="inline-flex items-center">
-                                                                <input
-                                                                    type="radio"
-                                                                    className="form-radio text-gray-600"
-                                                                    name={`attendance-${student.id}`}
-                                                                    value="excused"
-                                                                    checked={data.attendances[student.id] === 'excused'}
-                                                                    onChange={() => handleAttendanceChange(student.id, 'excused')}
-                                                                />
-                                                                <span className="ml-2">Excused</span>
                                                             </label>
                                                         </td>
                                                     </tr>
