@@ -1,3 +1,139 @@
+# Attendance Tracker Application
+
+This is a web application for tracking student attendance, built with Laravel, Inertia.js, and React. It provides features for teachers to mark daily attendance and view an attendance dashboard with filters.
+## 🚀 Features
+
+- User Authentication: Secure login and registration (provided by Laravel Breeze).
+- Role-Based Access: Differentiates between administrators and teachers.
+- Daily Attendance Marking: Teachers can select a subject and mark the attendance status (Present, Absent, Late, Excused) for enrolled students on a specific date.
+- Attendance Dashboard: View attendance summaries, including percentage attendance for students in various subjects, with filtering capabilities by date range, subject, and student name/registration number.
+
+Real-time Updates: Smooth, SPA-like experience with Inertia.js.
+
+## 📦 Technologies Used
+
+- Backend: PHP 8.2+, Laravel 11
+- Frontend: React 18
+- Fullstack Bridge: Inertia.js
+- Styling: Tailwind CSS
+- Database: MySQL
+- Build Tool: Vite
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+- PHP: Version 8.2 or higher (check with php -v)
+- Composer: Latest stable version (check with composer -v)
+- Node.js & npm: Latest LTS version (Node.js 18+ recommended) (check with node -v and npm -v)
+- MySQL Server: Running locally or accessible remotely.
+
+## ⚙️ Installation & Setup
+
+Follow these steps to get the project up and running on your local machine:
+
+- Clone the repository (or start a new Laravel project):
+    If you're starting from scratch:
+- composer create-project laravel/laravel attendance-tracker
+
+      cd attendance-tracker
+
+    (If you cloned a repository, just cd attendance-tracker)
+
+- Install PHP Dependencies:
+
+      composer install
+
+- Install Node.js Dependencies:
+
+      npm install
+
+-    Configure Environment Variables:
+
+Open the .env file and update your database connection details:
+
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=attendance_tracker_db # Choose your database name
+        DB_USERNAME=root                 # Your MySQL username
+        DB_PASSWORD=                     # Your MySQL password
+
+
+Important: Create the database in your MySQL server if it doesn't exist (e.g., using phpMyAdmin, MySQL Workbench, or a command-line client):
+
+        CREATE DATABASE attendance_tracker_db;
+
+
+Run Database Migrations and Seeders:
+    This command will drop any existing tables, re-run all migrations to create the schema, and then execute all seeders to populate the database with dummy users, students, subjects, and initial attendance records.
+
+    php artisan migrate:fresh --seed
+
+
+## ▶️ Running the Application
+
+You'll need two separate terminal windows for the frontend and backend development servers:
+
+-Start the Vite Development Server (Frontend):
+    Open a new terminal, navigate to your project root, and run:
+
+    npm run dev
+
+
+-Keep this terminal running. It watches for changes in your React files and recompiles them.
+
+Start the Laravel Development Server (Backend):
+    Open another new terminal, navigate to your project root, and run:
+
+    php artisan serve
+
+
+ Keep this terminal running. This serves your Laravel application.
+
+## 🌐 Accessing the Application
+
+Open your web browser and visit:
+http://localhost:8000
+
+You should see the Laravel welcome page. Click on "Login" or "Register" to get started.
+🔑 Default Credentials (After Seeding)
+
+After running php artisan migrate:fresh --seed, the database will be populated with the following users:
+
+- Admin User:
+
+        Email: admin@example.com
+
+        Password: password
+
+        Role: admin (Can access all pages, but primarily for future admin functionalities)
+
+- Teacher User (for marking attendance):
+
+        Email: teacher@example.com
+
+        Password: password
+
+        Role: teacher (This user is assigned to subjects and can mark attendance.)
+
+- Other Teachers:
+
+        Emails like teacher2@example.com, teacher3@example.com (password password for all).
+
+## 📂 Project Structure Highlights
+
+- app/Models/: Contains Eloquent models (User, Student, Subject, Attendance).
+- app/Http/Controllers/: Handles application logic and renders Inertia pages (AttendanceController, SubjectController).
+- routes/web.php: Defines application routes, mapping URLs to controller methods and Inertia components.
+- database/migrations/: Database schema definitions.
+- database/seeders/: Dummy data for development and testing.
+- resources/js/Pages/: Your React components for different application "pages" (e.g., Attendance/Mark.jsx, Attendance/Dashboard.jsx).
+- resources/js/Layouts/: Base layouts for React pages (e.g., AuthenticatedLayout.jsx).
+- resources/js/Components/: Reusable React components.
+
+
+    Laravel Logs: For backend errors (e.g., 500 Internal Server Error), check storage/logs/laravel.log for detailed error messages.
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
